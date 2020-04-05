@@ -1,17 +1,40 @@
 import React from 'react';
+import IconFormInput from './icon-form-input'
+
+import { Form, Input, Grid, Header, Button } from 'semantic-ui-react'
 
 import GoblinHead from '../icons/goblin-head.svg';
 import Mustache from '../icons/mustache.svg';
 import Blacksmith from '../icons/blacksmith.svg';
 import Stars from '../icons/stars-stack.svg';
-import '../assets/ficha.css'
-import { ocupacao } from '../utils/rpg/goblin/goblin-props'
+import MedalSkull from '../icons/medal-skull.svg';
+import { ocupacao, carcteristica, coloracao } from '../utils/rpg/goblin/goblin-props';
+import { mapObject } from '../utils/object';
+import {Atributos} from './atributos';
 
-const ocupacaoLista = Object.keys(ocupacao).map(
-    e => <MenuItem
-    value={ocupacao[e].number.toString()}
-    key={ocupacao[e].number.toString()}
->{ocupacao[e].nome}</MenuItem>)
+const optionsCarcteristica = mapObject(carcteristica, (value) => {
+    return {
+        key: value.number,
+        text: value.name,
+        value: value.number,
+    }
+});
+
+const optionsOcupacao = mapObject(ocupacao, (value) => {
+    return {
+        key: value.number,
+        text: value.name,
+        value: value.number,
+    }
+});
+
+const optionsColoracao = mapObject(coloracao, (value) => {
+    return {
+        key: value.number,
+        text: value.name,
+        value: value.number,
+    }
+});
 
 class Ficha extends React.Component {
 
@@ -48,9 +71,8 @@ class Ficha extends React.Component {
 
     handleChangeAtributos(e) {
         this.setState({
-            ...this.state,
             atributos: {
-                [e.target.name]: e.target.value
+                [e.name]: e.value
             }
         });
     }
@@ -62,10 +84,122 @@ class Ficha extends React.Component {
     render() {
         return (
             <>
-                <div>
+                <div style={{
+                    paddingLeft: `2%`,
+                    paddingRight: `2%`,
+                }}>
                     {/* NOME */}
-                    <img className="ficha-form--icon" src={GoblinHead} alt="Goblin Head" />
-                </div>
+                    <IconFormInput image={GoblinHead} alt={"Goblin Head"} form={
+                        <Form.Field
+                            id='name'
+                            name='name'
+                            control={Input}
+                            label='Seu nome das trevas'
+                            placeholder='Sou do mal!!!'
+                            onChange={this.handleChange}
+                            style={{
+                                width: `100%`
+                            }}
+                        />
+                    }></IconFormInput>
+
+                    {/* APARENCIA */}
+                    <IconFormInput image={Mustache} alt={"Goblin Head"} form={
+                        <>
+                            <Grid>
+                                <Grid.Row style={{
+                                    alignItems: `flex-end`,
+                                    justifyContent: `space-between`
+                                }}>
+                                    <Grid.Column width={7}>
+                                        <Form.Select
+                                            fluid
+                                            id='aparencia'
+                                            name='aparencia'
+                                            label='Aparência'
+                                            options={optionsCarcteristica}
+                                            placeholder='Feio'
+                                        />
+                                    </Grid.Column>
+                                    <Grid.Column width={1}
+                                        style={{ paddingBottom: `10px` }}
+                                    >E</Grid.Column>
+                                    <Grid.Column width={7} >
+                                        <Form.Select
+                                            fluid
+                                            id='coloracao'
+                                            name='coloracao'
+                                            label=''
+                                            options={optionsColoracao}
+                                            placeholder='Rosa'
+                                            style={{
+                                                width: `100%`
+                                            }}
+                                        />
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </>
+                    }></IconFormInput>
+
+                    {/* OCUPACAO */}
+                    <Grid>
+                        <Grid.Row style={{
+                            alignItems: `center`,
+                            justifyContent: `space-between`,
+                        }}>
+                            <Grid.Column width={8}>
+                                <IconFormInput imgSize={4} image={Blacksmith} alt={"Goblin Head"} form={
+                                    <Form.Select
+                                        fluid
+                                        id='ocupacao'
+                                        name='ocupacao'
+                                        label='Ocupação'
+                                        options={optionsOcupacao}
+                                        placeholder='Aspone'
+                                    />
+                                }></IconFormInput >
+                            </Grid.Column>
+                            <Grid.Column width={8} >
+                                <IconFormInput imgSize={4} image={MedalSkull} alt={"Goblin Head"} form={
+                                    <>
+                                        <div style={{
+                                            display: `flex`,
+                                            justifyContent: `space-around`
+                                        }}>
+                                            <Button style={{
+                                                flex: `1`
+                                            }} onClick={() => this.setState({
+                                                nivel: this.state.nivel > 1 ? this.state.nivel - 1 : 1
+                                            })}>
+                                                <Header as='h1'>-</Header>
+                                            </Button>
+                                            <Header style={{
+                                                flex: `1`,
+                                                textAlign: `center`
+                                            }} as='h2'>{this.state.nivel}</Header>
+                                            <Button style={{
+                                                flex: `1`,
+                                                padding: `0`
+                                            }} onClick={() => this.setState({
+                                                nivel: this.state.nivel + 1
+                                            })}>
+                                                <Header as='h1'>+</Header>
+                                            </Button>
+                                        </div>
+                                    </>
+                                }></IconFormInput >
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Atributos atributos={this.state.atributos} changeAtributos={this.handleChangeAtributos}></Atributos>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </div >
             </>
         );
     }
