@@ -23,10 +23,10 @@ const IconFormInput = (props) => (
       alignItems: `center`,
       justifyContent: `space-between`
     }}>
-      <Grid.Column width={props.imgSize || 2}>
+      <Grid.Column width={props.imgSize || 1}>
         {renderImage(props)}
       </Grid.Column>
-      <Grid.Column width={props.imgSize ? 16 - props.imgSize :14}>
+      <Grid.Column width={props.imgSize ? 16 - props.imgSize : 15}>
         <Form.Group widths='equal'>
           {props.children}
         </Form.Group>

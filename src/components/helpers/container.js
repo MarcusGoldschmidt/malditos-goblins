@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
-export const container = (props) => {
+export const FlexContainer = (props) => {
 
     return (
         <>
@@ -8,13 +9,13 @@ export const container = (props) => {
                 display: `flex`,
                 ...props.style,
             }}>
-                props.children
+                {props.children}
             </div>
         </>
     )
 }
 
-export const flex = (props) => {
+export const FlexItem = (props) => {
 
     return (
         <>
@@ -26,4 +27,16 @@ export const flex = (props) => {
             </div>
         </>
     )
+}
+
+FlexItem.propTypes = {
+    style: PropTypes.any,
+    flex: PropTypes.number,
+    children: PropTypes.node,
+}
+
+FlexContainer.propTypes = {
+    style: PropTypes.any,
+    flex: PropTypes.number,
+    children: PropTypes.node,
 }

@@ -10,6 +10,10 @@ import MedalSkull from '../icons/medal-skull.svg';
 import { ocupacao, carcteristica, coloracao } from '../utils/rpg/goblin/goblin-props';
 import { mapObject } from '../utils/object';
 import Atributos from './atributos';
+import Equipamentos from './equipamentos';
+import Vitalidade from './vitalidade';
+import AtributosCalculados from './atributos-calculados';
+import { Ball } from './helpers/inputs';
 
 const optionsCarcteristica = mapObject(carcteristica, (value) => {
     return {
@@ -53,7 +57,7 @@ class Ficha extends React.Component {
             },
             dano: 0,
             protecao: 0,
-            vitalidadeMax: 4,
+            vitalidadeMax: 20,
             vitalidade: 4,
             equipamentos: [],
         };
@@ -149,7 +153,7 @@ class Ficha extends React.Component {
                             justifyContent: `space-between`,
                         }}>
                             <Grid.Column width={8}>
-                                <IconFormInput imgSize={4} image={Blacksmith} alt={"Goblin Head"}>
+                                <IconFormInput imgSize={2} image={Blacksmith} alt={"Goblin Head"}>
                                     <Form.Select
                                         fluid
                                         id='ocupacao'
@@ -160,32 +164,24 @@ class Ficha extends React.Component {
                                     />
                                 </IconFormInput >
                             </Grid.Column>
-                            <Grid.Column width={8} >
+                            <Grid.Column width={7} >
                                 <IconFormInput imgSize={4} image={MedalSkull} alt={"Goblin Head"}>
                                     <>
                                         <div style={{
                                             display: `flex`,
                                             justifyContent: `space-around`
                                         }}>
-                                            <Button style={{
-                                                flex: `1`
-                                            }} onClick={() => this.setState({
+                                            <Ball onClick={() => this.setState({
                                                 nivel: this.state.nivel > 1 ? this.state.nivel - 1 : 1
                                             })}>
                                                 <Header as='h1'>-</Header>
-                                            </Button>
-                                            <Header style={{
-                                                flex: `1`,
-                                                textAlign: `center`
-                                            }} as='h2'>{this.state.nivel}</Header>
-                                            <Button style={{
-                                                flex: `1`,
-                                                padding: `0`
-                                            }} onClick={() => this.setState({
+                                            </Ball>
+                                            <Header style={{margin: 0}} as='h2'>{this.state.nivel}</Header>
+                                            <Ball onClick={() => this.setState({
                                                 nivel: this.state.nivel + 1
                                             })}>
-                                                <Header as='h1'>+</Header>
-                                            </Button>
+                                                <Header as='h3'>+</Header>
+                                            </Ball>
                                         </div>
                                     </>
                                 </IconFormInput >
@@ -194,8 +190,24 @@ class Ficha extends React.Component {
                     </Grid>
                     <Grid>
                         <Grid.Row>
-                            <Grid.Column>
+                            <Grid.Column width={8}>
                                 <Atributos atributos={this.state.atributos} changeAtributos={this.handleChangeAtributos}></Atributos>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <Equipamentos equipamentos={this.state.equipamentos} ></Equipamentos>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Vitalidade
+                                    vitalidade={this.state.vitalidade}
+                                    vitalidadeMax={this.state.vitalidadeMax}
+                                ></Vitalidade>
+                            </Grid.Column>
+                            <Grid.Column width={8}>
+                                <AtributosCalculados armas={[]} protecao={[]} ></AtributosCalculados>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>

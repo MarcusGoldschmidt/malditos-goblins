@@ -22,5 +22,11 @@
         "react"
     ],
     "rules": {
-    }
+    },
+    "settings": {
+        "import/extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
 }

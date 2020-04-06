@@ -1,6 +1,7 @@
 import React from 'react';
-import {Table} from 'semantic-ui-react';
+import { Table, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Ball } from './helpers/inputs'
 
 
 const Atributos = (props) => {
@@ -11,24 +12,13 @@ const Atributos = (props) => {
         }
     });
 
-    const Ball = (data) => <>
-        <button style={{
-            borderRadius: `25%`,
-            backgroundColor: `#e0e1e2`
-        }}
-            onClick={data.onClick}
-        >
-            {data.children}
-        </button>
-    </>
-
-    const AtributeHandler = ({name, value}) => <>
+    const AtributeHandler = ({ name, value }) => <>
         <div style={{
             display: `flex`,
             justifyContent: `space-around`
         }}>
             <Ball onClick={() => {
-                if (value <= 1){return}
+                if (value <= 1) { return }
                 props.changeAtributos({
                     name: name,
                     value: value - 1
@@ -45,16 +35,17 @@ const Atributos = (props) => {
     </>
     AtributeHandler.propTypes = {
         name: PropTypes.string.isRequired,
-        value:  PropTypes.number.isRequired,
+        value: PropTypes.number.isRequired,
     }
 
     return (
         <>
+            <Header as='h3'>Atributos</Header>
             <Table color='red'>
                 {todosAtributos.map(e =>
                     <Table.Header key={e.key}>
                         <Table.Row>
-                            <Table.HeaderCell>{e.key}</Table.HeaderCell>
+                            <Table.HeaderCell style={{ textTransform: `capitalize` }}>{e.key}</Table.HeaderCell>
                             <Table.HeaderCell>
                                 <AtributeHandler name={e.key} value={e.value} />
                             </Table.HeaderCell>
