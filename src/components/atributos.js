@@ -1,8 +1,9 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import {Table} from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
 
-export const Atributos = (props) => {
+const Atributos = (props) => {
     const todosAtributos = Object.keys(props.atributos).map((key) => {
         return {
             value: props.atributos[key],
@@ -42,6 +43,10 @@ export const Atributos = (props) => {
             }}>+</Ball>
         </div>
     </>
+    AtributeHandler.propTypes = {
+        name: PropTypes.string.isRequired,
+        value:  PropTypes.number.isRequired,
+    }
 
     return (
         <>
@@ -60,3 +65,10 @@ export const Atributos = (props) => {
         </>
     )
 }
+
+Atributos.propTypes = {
+    atributos: PropTypes.any.isRequired,
+    changeAtributos: PropTypes.func.isRequired,
+}
+
+export default Atributos;

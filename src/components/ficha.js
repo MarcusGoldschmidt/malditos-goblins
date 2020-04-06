@@ -6,11 +6,10 @@ import { Form, Input, Grid, Header, Button } from 'semantic-ui-react'
 import GoblinHead from '../icons/goblin-head.svg';
 import Mustache from '../icons/mustache.svg';
 import Blacksmith from '../icons/blacksmith.svg';
-import Stars from '../icons/stars-stack.svg';
 import MedalSkull from '../icons/medal-skull.svg';
 import { ocupacao, carcteristica, coloracao } from '../utils/rpg/goblin/goblin-props';
 import { mapObject } from '../utils/object';
-import { Atributos } from './atributos';
+import Atributos from './atributos';
 
 const optionsCarcteristica = mapObject(carcteristica, (value) => {
     return {
