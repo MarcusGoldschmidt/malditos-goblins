@@ -45,14 +45,14 @@ const evaluate = data => {
     }
 
     // Just Digit
-    regexResult = justDigitRegex.exec(data)
+    regexResult = justDigitRegex.exec(data);
     if(regexResult){
-        return parseInt(data) + evaluate(data.substring(regexResult[0].length);
+        return parseInt(data) + evaluate(data.substring(regexResult[0].length));
     }
 }
 
 export function rolarDados(data){
-    const transformation = data.replace(" ","").replace("D","d");
+    const transformation = data.toLowerCase().replace(/\s+/g, '');
 
     return evaluate(transformation);
 }

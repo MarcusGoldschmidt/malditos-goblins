@@ -28,7 +28,7 @@ const IconFormInput = (props) => (
       </Grid.Column>
       <Grid.Column width={props.imgSize ? 16 - props.imgSize :14}>
         <Form.Group widths='equal'>
-          {props.form}
+          {props.children}
         </Form.Group>
       </Grid.Column>
     </Grid.Row>

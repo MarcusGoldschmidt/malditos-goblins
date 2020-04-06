@@ -21,37 +21,41 @@ export const Atributos = (props) => {
         </button>
     </>
 
-    const AtributeHandler = (data) => <>
+    const AtributeHandler = ({name, value}) => <>
         <div style={{
             display: `flex`,
             justifyContent: `space-around`
         }}>
             <Ball onClick={() => {
+                if (value <= 1){return}
                 props.changeAtributos({
-
+                    name: name,
+                    value: value - 1
                 })
             }}>-</Ball>
-            {data.value}
-            <Ball>+</Ball>
+            {value}
+            <Ball onClick={() => {
+                props.changeAtributos({
+                    name: name,
+                    value: value + 1
+                })
+            }}>+</Ball>
         </div>
     </>
 
     return (
         <>
             <Table color='red'>
-
                 {todosAtributos.map(e =>
-                    <Table.Header  key={e.key}>
+                    <Table.Header key={e.key}>
                         <Table.Row>
-                        <Table.HeaderCell>{e.key}</Table.HeaderCell>
+                            <Table.HeaderCell>{e.key}</Table.HeaderCell>
                             <Table.HeaderCell>
-                                <AtributeHandler value={e.value} />
+                                <AtributeHandler name={e.key} value={e.value} />
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>)
                 }
-
-
             </Table>
         </>
     )

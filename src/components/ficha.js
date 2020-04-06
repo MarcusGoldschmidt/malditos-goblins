@@ -10,7 +10,7 @@ import Stars from '../icons/stars-stack.svg';
 import MedalSkull from '../icons/medal-skull.svg';
 import { ocupacao, carcteristica, coloracao } from '../utils/rpg/goblin/goblin-props';
 import { mapObject } from '../utils/object';
-import {Atributos} from './atributos';
+import { Atributos } from './atributos';
 
 const optionsCarcteristica = mapObject(carcteristica, (value) => {
     return {
@@ -72,6 +72,7 @@ class Ficha extends React.Component {
     handleChangeAtributos(e) {
         this.setState({
             atributos: {
+                ...this.state.atributos,
                 [e.name]: e.value
             }
         });
@@ -89,7 +90,7 @@ class Ficha extends React.Component {
                     paddingRight: `2%`,
                 }}>
                     {/* NOME */}
-                    <IconFormInput image={GoblinHead} alt={"Goblin Head"} form={
+                    <IconFormInput image={GoblinHead} alt={"Goblin Head"}>
                         <Form.Field
                             id='name'
                             name='name'
@@ -101,10 +102,10 @@ class Ficha extends React.Component {
                                 width: `100%`
                             }}
                         />
-                    }></IconFormInput>
+                    </IconFormInput>
 
                     {/* APARENCIA */}
-                    <IconFormInput image={Mustache} alt={"Goblin Head"} form={
+                    <IconFormInput image={Mustache} alt={"Goblin Head"}>
                         <>
                             <Grid>
                                 <Grid.Row style={{
@@ -140,7 +141,7 @@ class Ficha extends React.Component {
                                 </Grid.Row>
                             </Grid>
                         </>
-                    }></IconFormInput>
+                    </IconFormInput>
 
                     {/* OCUPACAO */}
                     <Grid>
@@ -149,7 +150,7 @@ class Ficha extends React.Component {
                             justifyContent: `space-between`,
                         }}>
                             <Grid.Column width={8}>
-                                <IconFormInput imgSize={4} image={Blacksmith} alt={"Goblin Head"} form={
+                                <IconFormInput imgSize={4} image={Blacksmith} alt={"Goblin Head"}>
                                     <Form.Select
                                         fluid
                                         id='ocupacao'
@@ -158,10 +159,10 @@ class Ficha extends React.Component {
                                         options={optionsOcupacao}
                                         placeholder='Aspone'
                                     />
-                                }></IconFormInput >
+                                </IconFormInput >
                             </Grid.Column>
                             <Grid.Column width={8} >
-                                <IconFormInput imgSize={4} image={MedalSkull} alt={"Goblin Head"} form={
+                                <IconFormInput imgSize={4} image={MedalSkull} alt={"Goblin Head"}>
                                     <>
                                         <div style={{
                                             display: `flex`,
@@ -188,7 +189,7 @@ class Ficha extends React.Component {
                                             </Button>
                                         </div>
                                     </>
-                                }></IconFormInput >
+                                </IconFormInput >
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
