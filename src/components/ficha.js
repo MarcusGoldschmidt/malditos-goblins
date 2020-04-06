@@ -62,6 +62,8 @@ class Ficha extends React.Component {
             equipamentos: [],
         };
 
+        console.log(JSON.stringify(this.state));
+
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeAtributos = this.handleChangeAtributos.bind(this);
     }

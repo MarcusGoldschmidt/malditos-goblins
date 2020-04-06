@@ -2,13 +2,11 @@ import React from 'react';
 import { Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash'
-import EvilLove from '../icons/evil-love.svg'
 import { FlexContainer, FlexItem } from './helpers/container';
+import Heart from './icons/heart';
 
 
-const Vitalidade = ({ vitalidadeMax }) => {
-
-    console.log(EvilLove)
+const Vitalidade = ({ vitalidadeMax, vitalidade }) => {
 
     return (
         <>
@@ -29,9 +27,11 @@ const Vitalidade = ({ vitalidadeMax }) => {
                         <div style={{
                             padding: `5%`
                         }}>
-                            <img style={{
+                            <div style={{
                                 maxWidth: `70px`
-                            }} src={EvilLove}></img>
+                            }}>
+                                <Heart color={vitalidade <= e ? '#fff' : 'red'}></Heart>
+                            </div>
                         </div>
                     </FlexItem>
                 )}
