@@ -1,7 +1,7 @@
 import React from 'react';
 import IconFormInput from './icon-form-input'
 
-import { Form, Input, Grid, Header, Select } from 'semantic-ui-react'
+import { Form, Input, Grid, Header, Select, Button, TextArea } from 'semantic-ui-react'
 
 import GoblinHead from '../icons/goblin-head.svg';
 import Mustache from '../icons/mustache.svg';
@@ -14,18 +14,18 @@ import Equipamentos from './equipamentos';
 import Vitalidade from './vitalidade';
 import AtributosCalculados from './atributos-calculados';
 import { Ball } from './helpers/inputs';
-import { atribuiBonusPelaOcupacao, atribuiBonusPelaCor } from '../utils/rpg/goblin/create-goblin';
+import { atribuiBonusPelaOcupacao, atribuiBonusPelaCor, gerarNomeGoblin, createGoblin } from '../utils/rpg/goblin/create-goblin';
 
 const optionsCarcteristica = mapObject(carcteristica, (value, key) => {
     return {
-        key: key,
+        key: value.number,
         text: value.name,
         value: key,
     }
 });
 
 const optionsOcupacao = mapObject(ocupacao, (value, key) => {
-    return {    
+    return {
         key: value.number,
         text: value.name,
         value: key,
@@ -46,10 +46,10 @@ class Ficha extends React.Component {
         super(props);
 
         this.state = {
-            nome: "",
-            coloracao: {},
-            carcteristica: {},
-            ocupacao: {},
+            nome: '',
+            coloracao: null,
+            carcteristica: null,
+            ocupacao: null,
             nivel: 1,
             atributos: {
                 combate: 0,
@@ -64,6 +64,7 @@ class Ficha extends React.Component {
             equipamentos: [],
             manaMax: 8,
             mana: 8,
+            descricao: '',
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -78,9 +79,9 @@ class Ficha extends React.Component {
         });
     }
 
-    atribuiAtributos(cor, job){
+    atribuiAtributos(cor, job) {
         let atributos = atribuiBonusPelaCor(cor);
-        
+
         atributos = atribuiBonusPelaOcupacao({
             ocupacao: job,
             atributos,
@@ -94,18 +95,18 @@ class Ficha extends React.Component {
     handleChangeSelect(e, data) {
         let prop;
 
-        switch(data.name){
+        switch (data.name) {
             case 'ocupacao':
                 prop = ocupacao;
                 this.atribuiAtributos(this.state.coloracao, prop[data.value]);
-            break
+                break
             case 'coloracao':
                 prop = coloracao;
                 this.atribuiAtributos(prop[data.value], this.state.ocupacao);
-            break 
+                break
             case 'carcteristica':
                 prop = carcteristica;
-            break
+                break
             default:
                 return;
         }
@@ -113,7 +114,7 @@ class Ficha extends React.Component {
             [data.name]: prop[data.value]
         });
 
-        
+
     }
 
     handleChangeAtributos(e) {
@@ -137,19 +138,34 @@ class Ficha extends React.Component {
                     paddingRight: `2%`,
                 }}>
                     {/* NOME */}
-                    <IconFormInput image={GoblinHead} alt={"Goblin Head"}>
-                        <Form.Field
-                            id='name'
-                            name='name'
-                            control={Input}
-                            label='Seu nome das trevas'
-                            placeholder='Sou do mal!!!'
-                            onChange={this.handleChange}
-                            style={{
-                                width: `100%`
-                            }}
-                        />
-                    </IconFormInput>
+                    <Grid>
+                        <Grid.Row style={{
+                            alignItems: `flex-end`,
+                            justifyContent: `space-between`
+                        }}>
+                            <Grid.Column width={14}>
+                                <IconFormInput image={GoblinHead} alt={"Goblin Head"}>
+                                    <Form.Field
+                                        id='name'
+                                        name='name'
+                                        control={Input}
+                                        label='Seu nome das trevas'
+                                        placeholder='Sou do mal!!!'
+                                        onChange={this.handleChange}
+                                        value={this.state.nome}
+                                        style={{
+                                            width: `100%`
+                                        }}
+                                    />
+                                </IconFormInput>
+                            </Grid.Column>
+                            <Grid.Column width={2}>
+                                <Button onClick={() => this.setState({ nome: gerarNomeGoblin() })}>
+                                    Gerar Nome
+                                </Button>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
 
                     {/* APARENCIA */}
                     <IconFormInput image={Mustache} alt={"Goblin Head"}>
@@ -162,12 +178,16 @@ class Ficha extends React.Component {
                                     <Grid.Column width={7}>
                                         <Form.Select
                                             fluid
+                                            selection
                                             id='carcteristica'
                                             name='carcteristica'
                                             label='Aparência'
                                             control={Select}
                                             options={optionsCarcteristica}
                                             onChange={this.handleChangeSelect}
+                                            value={
+                                                optionsCarcteristica[this.state.carcteristica && this.state.carcteristica.number || 0].value
+                                            }
                                             placeholder='Feio'
                                         />
                                     </Grid.Column>
@@ -184,6 +204,7 @@ class Ficha extends React.Component {
                                             options={optionsColoracao}
                                             onChange={this.handleChangeSelect}
                                             placeholder='Rosa'
+                                            value={optionsColoracao[this.state.coloracao && this.state.coloracao.number || 0].value}
                                             style={{
                                                 width: `100%`
                                             }}
@@ -209,6 +230,7 @@ class Ficha extends React.Component {
                                         label='Ocupação'
                                         onChange={this.handleChangeSelect}
                                         options={optionsOcupacao}
+                                        value={optionsOcupacao[this.state.ocupacao && this.state.ocupacao.number || 0].value}
                                         placeholder='Aspone'
                                     />
                                 </IconFormInput >
@@ -263,7 +285,35 @@ class Ficha extends React.Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                </div >
+                    <Header as='h3'>Descrição</Header>
+                    <Grid>
+                        <Grid.Row>
+                            <Grid.Column width={8}>
+                                <Form>
+                                    <TextArea rows={9} name='descricao' value={this.state.descricao} onChange={this.handleChange} placeholder='Seu passado de vilão' />
+                                </Form>
+                            </Grid.Column>
+                            <Grid.Column width={8} style={{
+                                justifyContent: `space-around`
+                            }}>
+                                <Button>
+                                    Exportar ficha
+                                </Button>
+                                <Button>
+                                    Importar ficha
+                                </Button>
+                                <Button onClick={() => this.setState({
+                                    ...createGoblin({})
+                                })}>
+                                    Gerar ficha aleatória
+                                </Button>
+                                <Button>
+                                    Salvar
+                                </Button>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                </div>
             </>
         );
     }

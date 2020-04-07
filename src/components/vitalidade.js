@@ -82,13 +82,13 @@ const Vitalidade = ({ vitalidadeMax, vitalidade, job, mana, manaMax }) => {
 Vitalidade.propTypes = {
     vitalidadeMax: PropTypes.number.isRequired,
     vitalidade: PropTypes.number.isRequired,
-    job: PropTypes.any.isRequired,
+    job: PropTypes.any,
     manaMax: PropTypes.number.isRequired,
     mana: PropTypes.number.isRequired,
 }
 
 ManaProp.propTypes = {
-    job: PropTypes.any.isRequired,
+    job: PropTypes.any,
     manaMax: PropTypes.number.isRequired,
     mana: PropTypes.number.isRequired,
 }

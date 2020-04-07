@@ -137,13 +137,16 @@ export function createGoblin(options) {
         vozGoblin: false,
     }
 
-    goblin.atributos = atribuiBonusPelaCor(goblin);
+    goblin.atributos = atribuiBonusPelaCor(goblin.coloracao);
 
-    goblin.atributos = atribuiBonusPelaOcupacao(goblin.ocupacao);
-
+    goblin.atributos = atribuiBonusPelaOcupacao({
+        ocupacao: goblin.ocupacao,
+        atributos: goblin.atributos
+    });
     // goblin.equipamentos = atribuiEquipamentos(goblin.ocupacao);
 
-    if(goblin.carcteristica === carcteristica.ANOMALIA){
-        goblin.carcteristica.anomalias = atribuiAnomalia();
-    }
+    // if(goblin.carcteristica === carcteristica.ANOMALIA){
+    //     goblin.carcteristica.anomalias = atribuiAnomalia();
+    // }
+    return goblin;
 }
