@@ -2,7 +2,7 @@ import { carcteristica, coloracao, ocupacao, anomalia  } from "./goblin-props";
 import { getRandonProp, random} from "../../randon";
 import { rolarDados } from "../../dados";
 
-const atribuiAtributos = array => {
+const atribuiAtributos = (...array) => {
     return {
         combate: array[0],
         conhecimento: array[1],
@@ -11,7 +11,7 @@ const atribuiAtributos = array => {
     }
 }
 
-const atribuiBonusPelaCor = cor => {
+export const atribuiBonusPelaCor = cor => {
     switch(cor){
         case coloracao.AZUL:
             return atribuiAtributos(1,2,1,2);
@@ -23,19 +23,27 @@ const atribuiBonusPelaCor = cor => {
             return atribuiAtributos(1,2,2,1);
         case coloracao.VERDE_ESCURO:
             return atribuiAtributos(2,1,2,1);
+        case coloracao.AMARELO:
+            return atribuiAtributos(1,1,2,2);
         default:
-            return atribuiAtributos(1,1,1,1);
+            return atribuiAtributos(0,0,0,0);
     }
 }
 
-const atribuiBonusPelaOcupacao = (goblin) => {
+export const atribuiBonusPelaOcupacao = (goblin) => {
+
+    if(!goblin.ocupacao || !goblin.ocupacao.atributos){
+        return goblin.atributos;
+    }
+
     Object.keys(goblin.ocupacao.atributos).forEach(e => {
-        goblin.atributos[e] = goblin.ocupacao.atributos[e]
+        goblin.atributos[e] =  goblin.atributos[e] + goblin.ocupacao.atributos[e]
     });
+
     return goblin.atributos;
 }
 
-const atribuiEquipamentos = profissao =>{
+export const atribuiEquipamentos = profissao =>{
     switch(profissao){
         case ocupacao.AZUL:
             return atribuiAtributos(1,2,1,2);
@@ -52,7 +60,7 @@ const atribuiEquipamentos = profissao =>{
     }
 }
 
-const atribuiAnomalia = () => {
+export const atribuiAnomalia = () => {
     const diceResult = rolarDados("2d6");
 
     switch(diceResult){
@@ -133,7 +141,7 @@ export function createGoblin(options) {
 
     goblin.atributos = atribuiBonusPelaOcupacao(goblin.ocupacao);
 
-    goblin.equipamentos = atribuiEquipamentos(goblin.ocupacao);
+    // goblin.equipamentos = atribuiEquipamentos(goblin.ocupacao);
 
     if(goblin.carcteristica === carcteristica.ANOMALIA){
         goblin.carcteristica.anomalias = atribuiAnomalia();

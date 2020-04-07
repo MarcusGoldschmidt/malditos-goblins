@@ -1,7 +1,7 @@
 import React from 'react';
 import IconFormInput from './icon-form-input'
 
-import { Form, Input, Grid, Header, Button } from 'semantic-ui-react'
+import { Form, Input, Grid, Header, Select } from 'semantic-ui-react'
 
 import GoblinHead from '../icons/goblin-head.svg';
 import Mustache from '../icons/mustache.svg';
@@ -14,28 +14,29 @@ import Equipamentos from './equipamentos';
 import Vitalidade from './vitalidade';
 import AtributosCalculados from './atributos-calculados';
 import { Ball } from './helpers/inputs';
+import { atribuiBonusPelaOcupacao, atribuiBonusPelaCor } from '../utils/rpg/goblin/create-goblin';
 
-const optionsCarcteristica = mapObject(carcteristica, (value) => {
+const optionsCarcteristica = mapObject(carcteristica, (value, key) => {
     return {
-        key: value.number,
+        key: key,
         text: value.name,
-        value: value.number,
+        value: key,
     }
 });
 
-const optionsOcupacao = mapObject(ocupacao, (value) => {
-    return {
+const optionsOcupacao = mapObject(ocupacao, (value, key) => {
+    return {    
         key: value.number,
         text: value.name,
-        value: value.number,
+        value: key,
     }
 });
 
-const optionsColoracao = mapObject(coloracao, (value) => {
+const optionsColoracao = mapObject(coloracao, (value, key) => {
     return {
         key: value.number,
         text: value.name,
-        value: value.number,
+        value: key,
     }
 });
 
@@ -46,32 +47,73 @@ class Ficha extends React.Component {
 
         this.state = {
             nome: "",
-            aparencia: "",
-            ocupacao: "",
+            coloracao: {},
+            carcteristica: {},
+            ocupacao: {},
             nivel: 1,
             atributos: {
-                combate: 1,
-                conhecimento: 1,
-                habilidade: 1,
-                sorte: 1,
+                combate: 0,
+                conhecimento: 0,
+                habilidade: 0,
+                sorte: 0,
             },
             dano: 0,
             protecao: 0,
-            vitalidadeMax: 20,
+            vitalidadeMax: 4,
             vitalidade: 4,
             equipamentos: [],
+            manaMax: 8,
+            mana: 8,
         };
-
-        console.log(JSON.stringify(this.state));
 
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeAtributos = this.handleChangeAtributos.bind(this);
+        this.handleChangeSelect = this.handleChangeSelect.bind(this);
+        this.atribuiAtributos = this.atribuiAtributos.bind(this);
     }
 
     handleChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         });
+    }
+
+    atribuiAtributos(cor, job){
+        let atributos = atribuiBonusPelaCor(cor);
+        
+        atributos = atribuiBonusPelaOcupacao({
+            ocupacao: job,
+            atributos,
+        });
+
+        this.setState({
+            atributos
+        });
+    }
+
+    handleChangeSelect(e, data) {
+        let prop;
+
+        switch(data.name){
+            case 'ocupacao':
+                prop = ocupacao;
+                this.atribuiAtributos(this.state.coloracao, prop[data.value]);
+            break
+            case 'coloracao':
+                prop = coloracao;
+                this.atribuiAtributos(prop[data.value], this.state.ocupacao);
+            break 
+            case 'carcteristica':
+                prop = carcteristica;
+            break
+            default:
+                return;
+        }
+        this.setState({
+            [data.name]: prop[data.value]
+        });
+
+        
     }
 
     handleChangeAtributos(e) {
@@ -120,23 +162,27 @@ class Ficha extends React.Component {
                                     <Grid.Column width={7}>
                                         <Form.Select
                                             fluid
-                                            id='aparencia'
-                                            name='aparencia'
+                                            id='carcteristica'
+                                            name='carcteristica'
                                             label='Aparência'
+                                            control={Select}
                                             options={optionsCarcteristica}
+                                            onChange={this.handleChangeSelect}
                                             placeholder='Feio'
                                         />
                                     </Grid.Column>
                                     <Grid.Column width={1}
                                         style={{ paddingBottom: `10px` }}
                                     >E</Grid.Column>
-                                    <Grid.Column width={7} >
+                                    <Grid.Column width={7}>
                                         <Form.Select
                                             fluid
                                             id='coloracao'
                                             name='coloracao'
-                                            label=''
+                                            label='Coloração'
+                                            control={Select}
                                             options={optionsColoracao}
+                                            onChange={this.handleChangeSelect}
                                             placeholder='Rosa'
                                             style={{
                                                 width: `100%`
@@ -161,6 +207,7 @@ class Ficha extends React.Component {
                                         id='ocupacao'
                                         name='ocupacao'
                                         label='Ocupação'
+                                        onChange={this.handleChangeSelect}
                                         options={optionsOcupacao}
                                         placeholder='Aspone'
                                     />
@@ -178,7 +225,7 @@ class Ficha extends React.Component {
                                             })}>
                                                 <Header as='h1'>-</Header>
                                             </Ball>
-                                            <Header style={{margin: 0}} as='h2'>{this.state.nivel}</Header>
+                                            <Header style={{ margin: 0 }} as='h2'>{this.state.nivel}</Header>
                                             <Ball onClick={() => this.setState({
                                                 nivel: this.state.nivel + 1
                                             })}>
@@ -206,6 +253,9 @@ class Ficha extends React.Component {
                                 <Vitalidade
                                     vitalidade={this.state.vitalidade}
                                     vitalidadeMax={this.state.vitalidadeMax}
+                                    job={this.state.ocupacao}
+                                    mana={this.state.mana}
+                                    manaMax={this.state.manaMax}
                                 ></Vitalidade>
                             </Grid.Column>
                             <Grid.Column width={8}>
