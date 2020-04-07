@@ -15,6 +15,8 @@ import Vitalidade from './vitalidade';
 import AtributosCalculados from './atributos-calculados';
 import { Ball } from './helpers/inputs';
 import { atribuiBonusPelaOcupacao, atribuiBonusPelaCor, gerarNomeGoblin, createGoblin } from '../utils/rpg/goblin/create-goblin';
+import ImportFicha from './ficha/import';
+import ExportFicha from './ficha/export';
 
 const optionsCarcteristica = mapObject(carcteristica, (value, key) => {
     return {
@@ -71,6 +73,11 @@ class Ficha extends React.Component {
         this.handleChangeAtributos = this.handleChangeAtributos.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
         this.atribuiAtributos = this.atribuiAtributos.bind(this);
+        this.importarFichar = this.importarFichar.bind(this);
+    }
+
+    importarFichar(e) {
+        this.setState({...e.data});
     }
 
     handleChange(e) {
@@ -296,12 +303,8 @@ class Ficha extends React.Component {
                             <Grid.Column width={8} style={{
                                 justifyContent: `space-around`
                             }}>
-                                <Button>
-                                    Exportar ficha
-                                </Button>
-                                <Button>
-                                    Importar ficha
-                                </Button>
+                                <ExportFicha data={this.state}></ExportFicha>
+                                <ImportFicha handler={this.importarFichar}></ImportFicha>
                                 <Button onClick={() => this.setState({
                                     ...createGoblin({})
                                 })}>
