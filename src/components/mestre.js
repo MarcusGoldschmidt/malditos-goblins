@@ -1,14 +1,9 @@
-import React from 'react';
-import './App.css';
+import React from "react";
 
-class Mestre extends React {
-  render(){
-    return (
-        <div>
-
-        </div>
-    );
-  }
+const Mestre = () => {
+  return <>
+    <h4>Mestre na Area</h4>
+  </>
 }
 
 export default Mestre;
