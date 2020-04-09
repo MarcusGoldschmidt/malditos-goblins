@@ -17,6 +17,7 @@ import { Ball } from './helpers/inputs';
 import { atribuiBonusPelaOcupacao, atribuiBonusPelaCor, gerarNomeGoblin, createGoblin } from '../utils/rpg/goblin/create-goblin';
 import ImportFicha from './ficha/import';
 import ExportFicha from './ficha/export';
+import PropTypes from 'prop-types';
 
 const optionsCarcteristica = mapObject(carcteristica, (value, key) => {
     return {
@@ -69,6 +70,8 @@ class Ficha extends React.Component {
             descricao: '',
         };
 
+        this.state = props.ficha || this.state;
+
         this.handleChange = this.handleChange.bind(this);
         this.handleChangeAtributos = this.handleChangeAtributos.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
@@ -78,6 +81,10 @@ class Ficha extends React.Component {
 
     importarFichar(e) {
         this.setState({...e.data});
+    }
+
+    salvarFicha(){
+
     }
 
     handleChange(e) {
@@ -133,10 +140,6 @@ class Ficha extends React.Component {
         });
     }
 
-    salvarPersonagem() {
-        return;
-    }
-
     render() {
         return (
             <>
@@ -153,8 +156,8 @@ class Ficha extends React.Component {
                             <Grid.Column width={14}>
                                 <IconFormInput image={GoblinHead} alt={"Goblin Head"}>
                                     <Form.Field
-                                        id='name'
-                                        name='name'
+                                        id='nome'
+                                        name='nome'
                                         control={Input}
                                         label='Seu nome das trevas'
                                         placeholder='Sou do mal!!!'
@@ -310,7 +313,7 @@ class Ficha extends React.Component {
                                 })}>
                                     Gerar ficha aleatória
                                 </Button>
-                                <Button>
+                                <Button onClick={() => this.props.salvarFicha(this.state)}>
                                     Salvar
                                 </Button>
                             </Grid.Column>
@@ -320,6 +323,11 @@ class Ficha extends React.Component {
             </>
         );
     }
+}
+
+Ficha.propTypes = {
+    ficha: PropTypes.object,
+    salvarFicha: PropTypes.func.isRequired,
 }
 
 export default Ficha;

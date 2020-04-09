@@ -29,6 +29,25 @@ export const FlexItem = (props) => {
     )
 }
 
+export const PaddingDiv = (props) => {
+
+    return (
+        <>
+            <div style={{
+                ...props.style,
+                padding: `2% 1% 0 1%`
+            }}>
+                {props.children}
+            </div>
+        </>
+    )
+}
+
+PaddingDiv.propTypes = {
+    style: PropTypes.any,
+    children: PropTypes.node,
+}
+
 FlexItem.propTypes = {
     style: PropTypes.any,
     flex: PropTypes.number,

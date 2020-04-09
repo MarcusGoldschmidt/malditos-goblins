@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Ball } from './helpers/inputs'
 
 
 const FichaResumida = (atributos, nome, carcteristica, coloracao, ocupacao, dano = 0, protecao = 0) => {

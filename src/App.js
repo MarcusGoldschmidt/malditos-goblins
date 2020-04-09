@@ -4,10 +4,9 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import Ficha from "./components/ficha";
 import Lobby from './views/lobby';
 import Room from './views/room';
-
+import Fichas from './views/fichas';
 function App() {
   return (
     <>
@@ -16,8 +15,8 @@ function App() {
           <Route exact path="/">
             <Lobby></Lobby>
           </Route>
-          <Route path="/ficha">
-            <Ficha></Ficha>
+          <Route exact path="/ficha">
+            <Fichas></Fichas>
           </Route>
           <Route path="/room/:roomId">
             <Room></Room>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Header, Form, Button } from "semantic-ui-react";
 import {
-    useHistory
+    useHistory, Link
 } from "react-router-dom";
 
 const Lobby = () => {
@@ -10,7 +10,7 @@ const Lobby = () => {
     const history = useHistory();
 
     const entrarNaSala = () => {
-        history.push('/room/'+sala);
+        history.push('/room/' + sala);
     }
 
     return (<>
@@ -28,6 +28,9 @@ const Lobby = () => {
                         textAlign: `center`
                     }}>
                         <Button type='submit'>Entrar</Button>
+                        <Link to='/ficha'>
+                            <Button>Gerenciar fichas</Button>
+                        </Link>
                     </div>
                 </Form>
             </Grid.Column>
