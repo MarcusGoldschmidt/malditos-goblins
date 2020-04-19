@@ -5,7 +5,7 @@ import Ficha from "../components/ficha";
 import storage from "../utils/session-storage";
 import { Link } from "react-router-dom";
 
-const LOCAL_STORAGE_KEY = "FICHAS"
+const LOCAL_STORAGE_KEY = "FICHAS";
 
 class Fichas extends React.Component {
 
@@ -17,7 +17,7 @@ class Fichas extends React.Component {
             criandoFicha: false,
             editandoFicha: false,
             fichaAux: {},
-        }
+        };
 
         this.adicionarFicha = this.adicionarFicha.bind(this);
         this.excluirFicha = this.excluirFicha.bind(this);
@@ -42,7 +42,7 @@ class Fichas extends React.Component {
 
         const index = fichas.findIndex(e => {
             return e === this.state.fichaAux;
-        })
+        });
 
         fichas[index] = ficha;
 
@@ -56,7 +56,7 @@ class Fichas extends React.Component {
     excluirFicha(ficha) {
         let fichas = this.state.fichas;
 
-        fichas = fichas.filter(e => e != ficha);
+        fichas = fichas.filter(e => e !== ficha);
 
         sessionStorage.setItem(LOCAL_STORAGE_KEY, fichas);
 
@@ -67,11 +67,11 @@ class Fichas extends React.Component {
 
     render() {
         if (this.state.criandoFicha) {
-            return <Ficha salvarFicha={this.adicionarFicha}></Ficha>
+            return <Ficha salvarFicha={this.adicionarFicha}/>
         }
 
         if (this.state.editandoFicha) {
-            return <Ficha salvarFicha={this.editarFicha} ficha={this.state.fichaAux}></Ficha>
+            return <Ficha salvarFicha={this.editarFicha} ficha={this.state.fichaAux}/>
         }
 
         return (<>
@@ -84,8 +84,8 @@ class Fichas extends React.Component {
                             <Table.HeaderCell>Nome</Table.HeaderCell>
                             <Table.HeaderCell>Aparência</Table.HeaderCell>
                             <Table.HeaderCell>Ocupação</Table.HeaderCell>
-                            <Table.HeaderCell></Table.HeaderCell>
-                            <Table.HeaderCell></Table.HeaderCell>
+                            <Table.HeaderCell/>
+                            <Table.HeaderCell/>
                         </Table.Row>
                     </Table.Header>
 
@@ -93,7 +93,7 @@ class Fichas extends React.Component {
                         {this.state.fichas.map((ficha) => (<>
                             <Table.Row key={ficha.nome}>
                                 <Table.Cell>{ficha.nome}</Table.Cell>
-                                <Table.Cell>{ficha.carcteristica.name} e {ficha.coloracao.name}</Table.Cell>
+                                <Table.Cell>{ficha.caracteristica.name} e {ficha.coloracao.name}</Table.Cell>
                                 <Table.Cell>{ficha.ocupacao.name}</Table.Cell>
                                 <Table.Cell>
                                     <Button onClick={() => this.setState({ editandoFicha: true, fichaAux: ficha })} color='yellow'>Editar</Button>

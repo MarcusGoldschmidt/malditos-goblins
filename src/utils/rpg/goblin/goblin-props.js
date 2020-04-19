@@ -26,7 +26,7 @@ export const coloracao = {
     }
 }
 
-export const carcteristica = {
+export const caracteristica = {
     INSANO: {
         name: `Insano`,
         number: 0,

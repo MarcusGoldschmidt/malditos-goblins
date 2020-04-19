@@ -11,12 +11,12 @@ const Lobby = () => {
 
     const entrarNaSala = () => {
         history.push('/room/' + sala);
-    }
+    };
 
     return (<>
         <Grid centered columns={2}>
             <Grid.Column style={{
-                marginTop: `20%`
+                marginTop: `15%`
             }}>
                 <Header as='h2'>Procure uma sala ou crie uma</Header>
                 <Form onSubmit={entrarNaSala}>
@@ -36,6 +36,6 @@ const Lobby = () => {
             </Grid.Column>
         </Grid>
     </>)
-}
+};
 
 export default Lobby;

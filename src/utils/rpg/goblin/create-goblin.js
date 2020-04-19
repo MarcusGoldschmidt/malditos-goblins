@@ -1,4 +1,4 @@
-import { carcteristica, coloracao, ocupacao, anomalia  } from "./goblin-props";
+import { caracteristica, coloracao, ocupacao, anomalia  } from "./goblin-props";
 import { getRandonProp, random} from "../../randon";
 import { rolarDados } from "../../dados";
 
@@ -128,7 +128,7 @@ export function createGoblin(options) {
     const goblin = {
         nome: options.nome || gerarNomeGoblin(),
         coloracao: options.coloracao || getRandonProp(coloracao),
-        carcteristica: options.carcteristica || getRandonProp(carcteristica),
+        caracteristica: options.caracteristica || getRandonProp(caracteristica),
         ocupacao: options.ocupacao || getRandonProp(ocupacao),
         vitalidadeMax: 4,
         vitalidade: 4,
@@ -145,8 +145,8 @@ export function createGoblin(options) {
     });
     // goblin.equipamentos = atribuiEquipamentos(goblin.ocupacao);
 
-    // if(goblin.carcteristica === carcteristica.ANOMALIA){
-    //     goblin.carcteristica.anomalias = atribuiAnomalia();
+    // if(goblin.caracteristica === caracteristica.ANOMALIA){
+    //     goblin.caracteristica.anomalias = atribuiAnomalia();
     // }
     return goblin;
 }

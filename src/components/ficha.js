@@ -1,25 +1,30 @@
 import React from 'react';
 import IconFormInput from './icon-form-input'
 
-import { Form, Input, Grid, Header, Select, Button, TextArea } from 'semantic-ui-react'
+import {Form, Input, Grid, Header, Select, Button, TextArea} from 'semantic-ui-react'
 
 import GoblinHead from '../icons/goblin-head.svg';
 import Mustache from '../icons/mustache.svg';
 import Blacksmith from '../icons/blacksmith.svg';
 import MedalSkull from '../icons/medal-skull.svg';
-import { ocupacao, carcteristica, coloracao } from '../utils/rpg/goblin/goblin-props';
-import { mapObject } from '../utils/object';
+import {ocupacao, caracteristica, coloracao} from '../utils/rpg/goblin/goblin-props';
+import {mapObject} from '../utils/object';
 import Atributos from './atributos';
 import Equipamentos from './equipamentos';
 import Vitalidade from './vitalidade';
 import AtributosCalculados from './atributos-calculados';
-import { Ball } from './helpers/inputs';
-import { atribuiBonusPelaOcupacao, atribuiBonusPelaCor, gerarNomeGoblin, createGoblin } from '../utils/rpg/goblin/create-goblin';
+import {Ball} from './helpers/inputs';
+import {
+    atribuiBonusPelaOcupacao,
+    atribuiBonusPelaCor,
+    gerarNomeGoblin,
+    createGoblin
+} from '../utils/rpg/goblin/create-goblin';
 import ImportFicha from './ficha/import';
 import ExportFicha from './ficha/export';
 import PropTypes from 'prop-types';
 
-const optionsCarcteristica = mapObject(carcteristica, (value, key) => {
+const optionsCarcteristica = mapObject(caracteristica, (value, key) => {
     return {
         key: value.number,
         text: value.name,
@@ -51,7 +56,7 @@ class Ficha extends React.Component {
         this.state = {
             nome: '',
             coloracao: null,
-            carcteristica: null,
+            caracteristica: null,
             ocupacao: null,
             nivel: 1,
             atributos: {
@@ -76,15 +81,11 @@ class Ficha extends React.Component {
         this.handleChangeAtributos = this.handleChangeAtributos.bind(this);
         this.handleChangeSelect = this.handleChangeSelect.bind(this);
         this.atribuiAtributos = this.atribuiAtributos.bind(this);
-        this.importarFichar = this.importarFichar.bind(this);
+        this.importarFicha = this.importarFicha.bind(this);
     }
 
-    importarFichar(e) {
+    importarFicha(e) {
         this.setState({...e.data});
-    }
-
-    salvarFicha(){
-
     }
 
     handleChange(e) {
@@ -113,14 +114,14 @@ class Ficha extends React.Component {
             case 'ocupacao':
                 prop = ocupacao;
                 this.atribuiAtributos(this.state.coloracao, prop[data.value]);
-                break
+                break;
             case 'coloracao':
                 prop = coloracao;
                 this.atribuiAtributos(prop[data.value], this.state.ocupacao);
-                break
-            case 'carcteristica':
-                prop = carcteristica;
-                break
+                break;
+            case 'caracteristica':
+                prop = caracteristica;
+                break;
             default:
                 return;
         }
@@ -170,7 +171,7 @@ class Ficha extends React.Component {
                                 </IconFormInput>
                             </Grid.Column>
                             <Grid.Column width={2}>
-                                <Button onClick={() => this.setState({ nome: gerarNomeGoblin() })}>
+                                <Button onClick={() => this.setState({nome: gerarNomeGoblin()})}>
                                     Gerar Nome
                                 </Button>
                             </Grid.Column>
@@ -189,20 +190,20 @@ class Ficha extends React.Component {
                                         <Form.Select
                                             fluid
                                             selection
-                                            id='carcteristica'
-                                            name='carcteristica'
+                                            id='caracteristica'
+                                            name='caracteristica'
                                             label='Aparência'
                                             control={Select}
                                             options={optionsCarcteristica}
                                             onChange={this.handleChangeSelect}
                                             value={
-                                                optionsCarcteristica[this.state.carcteristica && this.state.carcteristica.number || 0].value
+                                                optionsCarcteristica[this.state.caracteristica && this.state.caracteristica.number || 0].value
                                             }
                                             placeholder='Feio'
                                         />
                                     </Grid.Column>
                                     <Grid.Column width={1}
-                                        style={{ paddingBottom: `10px` }}
+                                                 style={{paddingBottom: `10px`}}
                                     >E</Grid.Column>
                                     <Grid.Column width={7}>
                                         <Form.Select
@@ -243,9 +244,9 @@ class Ficha extends React.Component {
                                         value={optionsOcupacao[this.state.ocupacao && this.state.ocupacao.number || 0].value}
                                         placeholder='Aspone'
                                     />
-                                </IconFormInput >
+                                </IconFormInput>
                             </Grid.Column>
-                            <Grid.Column width={7} >
+                            <Grid.Column width={7}>
                                 <IconFormInput imgSize={4} image={MedalSkull} alt={"Goblin Head"}>
                                     <>
                                         <div style={{
@@ -257,7 +258,7 @@ class Ficha extends React.Component {
                                             })}>
                                                 <Header as='h1'>-</Header>
                                             </Ball>
-                                            <Header style={{ margin: 0 }} as='h2'>{this.state.nivel}</Header>
+                                            <Header style={{margin: 0}} as='h2'>{this.state.nivel}</Header>
                                             <Ball onClick={() => this.setState({
                                                 nivel: this.state.nivel + 1
                                             })}>
@@ -265,17 +266,18 @@ class Ficha extends React.Component {
                                             </Ball>
                                         </div>
                                     </>
-                                </IconFormInput >
+                                </IconFormInput>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
                     <Grid>
                         <Grid.Row>
                             <Grid.Column width={8}>
-                                <Atributos atributos={this.state.atributos} changeAtributos={this.handleChangeAtributos}></Atributos>
+                                <Atributos atributos={this.state.atributos}
+                                           changeAtributos={this.handleChangeAtributos}/>
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <Equipamentos equipamentos={this.state.equipamentos} ></Equipamentos>
+                                <Equipamentos equipamentos={this.state.equipamentos}/>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -288,10 +290,10 @@ class Ficha extends React.Component {
                                     job={this.state.ocupacao}
                                     mana={this.state.mana}
                                     manaMax={this.state.manaMax}
-                                ></Vitalidade>
+                                />
                             </Grid.Column>
                             <Grid.Column width={8}>
-                                <AtributosCalculados armas={[]} protecao={[]} ></AtributosCalculados>
+                                <AtributosCalculados armas={[]} protecao={[]}/>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -300,14 +302,15 @@ class Ficha extends React.Component {
                         <Grid.Row>
                             <Grid.Column width={8}>
                                 <Form>
-                                    <TextArea rows={9} name='descricao' value={this.state.descricao} onChange={this.handleChange} placeholder='Seu passado de vilão' />
+                                    <TextArea rows={9} name='descricao' value={this.state.descricao}
+                                              onChange={this.handleChange} placeholder='Seu passado de vilão'/>
                                 </Form>
                             </Grid.Column>
                             <Grid.Column width={8} style={{
                                 justifyContent: `space-around`
                             }}>
-                                <ExportFicha data={this.state}></ExportFicha>
-                                <ImportFicha handler={this.importarFichar}></ImportFicha>
+                                <ExportFicha data={this.state}/>
+                                <ImportFicha handler={this.importarFicha}/>
                                 <Button onClick={() => this.setState({
                                     ...createGoblin({})
                                 })}>
@@ -328,6 +331,6 @@ class Ficha extends React.Component {
 Ficha.propTypes = {
     ficha: PropTypes.object,
     salvarFicha: PropTypes.func.isRequired,
-}
+};
 
 export default Ficha;
